@@ -1,24 +1,46 @@
-// Your bot's behaviour. Add commands here; grammY's docs (grammy.dev) cover
-// keyboards, sessions, files, inline queries and everything else.
 
 import { InlineKeyboard } from "grammy"
 
+const APP_URL = "https://j798g6fzw8-sudo.github.io/sferas_vpn/"
+
 export function registerCommands(bot) {
-  bot.command("start", (ctx) =>
-    ctx.reply(`Hi ${ctx.from?.first_name ?? "there"}. I am alive and hosted on FadeHost. Send /help to see what I can do.`, {
-      reply_markup: new InlineKeyboard().text("Ping me", "ping"),
-    }),
-  )
+  bot.command("start", async (ctx) => {
+    const keyboard = new InlineKeyboard()
+      .webApp("🚀 Открыть Sfera VPN", APP_URL)
+      .row()
+      .text("📡 Проверить бота", "ping")
+
+    await ctx.reply(
+      `💙 Добро пожаловать в Sfera VPN!
+
+Твой интернет. Твои правила.
+
+🌍 Выбирай серверные локации.
+👤 Управляй своим аккаунтом.
+⚡ Открывай приложение прямо в Telegram.
+
+Sfera VPN — твой новый уровень свободы!
+
+👇 Нажми кнопку ниже, чтобы открыть приложение.`,
+      { reply_markup: keyboard }
+    )
+  })
 
   bot.command("help", (ctx) =>
-    ctx.reply(["Commands:", "/start  say hello", "/help   this list", "/ping   check I am awake", "/id     show chat and user ids", "", "Send me any text and I echo it back."].join("\n")),
+    ctx.reply(
+      "💙 Sfera VPN — помощь\n\n/start — открыть приложение\n/help — помощь\n/ping — проверить бота\n/id — узнать ID"
+    )
   )
 
-  bot.command("ping", (ctx) => ctx.reply("pong"))
+  bot.command("ping", (ctx) => ctx.reply("💙 Sfera VPN работает!"))
 
-  bot.command("id", (ctx) => ctx.reply(`Chat id: ${ctx.chat.id}\nYour id: ${ctx.from?.id ?? "unknown"}`))
+  bot.command("id", (ctx) =>
+    ctx.reply(`Chat ID: ${ctx.chat.id}\nUser ID: ${ctx.from?.id ?? "unknown"}`)
+  )
 
-  bot.callbackQuery("ping", (ctx) => ctx.answerCallbackQuery({ text: "pong" }))
+  bot.callbackQuery("ping", async (ctx) => {
+    await ctx.answerCallbackQuery({ text: "Sfera VPN работает! 💙" })
+  })
 
   bot.on("message:text", (ctx) => ctx.reply(ctx.message.text))
 }
